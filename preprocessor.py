@@ -11,6 +11,14 @@ except OSError:
     print("SpaCy model not found. Please run: python -m spacy download en_core_web_sm")
     nlp = None
 
+def create_target_class(df, stars_column='stars', threshold=4):
+    """
+    Creates a binary target class based on star ratings.
+    1 for positive (>= threshold), 0 for negative.
+    """
+    df['class'] = df[stars_column].apply(lambda x: 1 if x >= threshold else 0)
+    return df
+
 def preprocess_text(text):
     """Clean, tokenize, and remove artifacts."""
     if not isinstance(text, str):

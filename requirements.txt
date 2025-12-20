@@ -1,0 +1,8 @@
+swifter
+gensim
+nltk
+spacy
+pandas
+matplotlib
+owlready2
+vaderSentiment

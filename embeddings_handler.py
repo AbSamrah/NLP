@@ -47,6 +47,13 @@ class EmbeddingsHandler:
         self.vector_size = self.model.vector_size
         return self.model
 
+    def load_pretrained_text(self, path):
+        """Loads pre-trained models in text format (.vec files)."""
+        print(f"Loading text model from {path}...")
+        self.model = KeyedVectors.load_word2vec_format(path, binary=False)
+        self.vector_size = self.model.vector_size
+        return self.model
+
     def get_document_vector(self, tokens):
         """
         Creates a single vector for a document by averaging the vectors 
@@ -92,3 +99,13 @@ class EmbeddingsHandler:
             return wv.most_similar(positive=positive, negative=negative, topn=1)
         except KeyError as e:
             return f"Error: {e}"
+
+    def get_semantic_neighbors(self, word, topn=3):
+        """
+        Returns the top semantic neighbors for a given word.
+        """
+        similar = self.find_similar_words(word, topn=topn)
+        if similar:
+            return [w[0] for w in similar]
+        else:
+            return []
